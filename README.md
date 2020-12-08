@@ -210,6 +210,7 @@ $shipment->status;
 
 You can get detailed track and trace information for a shipment.
 
+
 ``` php
 $tracktrace = $myparcel->tracktrace->get($id);
 
@@ -231,6 +232,11 @@ $tracktrace->items;
 
 // Convert all items to an array:
 $tracktrace->items->all()
+```
+
+To get estimated/expected delivery moment call track with boolean true as second argument
+```php
+$tracktrace = $myparcel->tracktrace->get($id, true);
 ```
 
 ## Webhooks subscriptions

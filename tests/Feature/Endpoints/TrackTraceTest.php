@@ -2,6 +2,7 @@
 
 namespace Mvdnbrk\MyParcel\Tests\Feature\Endpoints;
 
+use Mvdnbrk\MyParcel\Resources\DeliveryMoment;
 use Mvdnbrk\MyParcel\Resources\Parcel;
 use Mvdnbrk\MyParcel\Resources\Shipment;
 use Mvdnbrk\MyParcel\Tests\TestCase;
@@ -58,6 +59,23 @@ class TrackTraceTest extends TestCase
 
         $this->assertTrue($this->cleanUp($shipment));
     }
+
+    /** @test */
+    public function get_track_and_trace_information_with_expected_delivery_by_shipment_id()
+    {
+        $parcel = new Parcel([
+            'recipient' => $this->validRecipient(),
+        ]);
+
+        $shipment = $this->client->shipments->concept($parcel);
+
+        $tracktrace = $this->client->tracktrace->get($shipment->id, true);
+        $this->assertInstanceOf(DeliveryMoment::class, $tracktrace->delivery_moment);
+        $this->assertSame([], $tracktrace->history);
+
+        $this->assertTrue($this->cleanUp($shipment));
+    }
+
 
     /** @test */
     public function getting_track_and_trace_information_with_an_invalid_id_should_throw_an_error()
