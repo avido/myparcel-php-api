@@ -15,4 +15,16 @@ class Shipment extends Parcel
 
     /** @var int */
     public $status;
+
+    /** @var Money */
+    public $price;
+
+    public function setPriceAttribute($value): void
+    {
+        if ($value instanceof Money) {
+            $this->price = $value;
+        } else {
+            $this->price = new Money($value);
+        }
+    }
 }
