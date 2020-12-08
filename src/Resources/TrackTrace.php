@@ -21,6 +21,12 @@ class TrackTrace extends Trace
     /** @var array */
     public $history;
 
+    /** @var string */
+    public $delivery_moment_type;
+
+    /** @var array */
+    public $delivery_moment;
+
     public function __construct(array $attributes = [])
     {
         $this->history = [];
@@ -73,5 +79,13 @@ class TrackTrace extends Trace
         $this->history = collect($array)->map(function ($item) {
             return collect($item)->all();
         })->all();
+    }
+
+    public function setDeliveryMomentAttribute($value): void
+    {
+        if (!$value instanceof DeliveryMoment) {
+            $value = new DeliveryMoment($value);
+        }
+        $this->delivery_moment = $value;
     }
 }

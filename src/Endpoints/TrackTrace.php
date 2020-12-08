@@ -11,19 +11,23 @@ class TrackTrace extends BaseEndpoint
      * Get detailed track and trace information for a shipment.
      *
      * @param  \Mvdnbrk\MyParcel\Resources\Shipment|int  $value
+     * @param bool $deliveryMoment
      * @return \Mvdnbrk\MyParcel\Resources\TrackTrace
      */
-    public function get($value): TrackTraceResource
+    public function get($value, bool $deliveryMoment = false): TrackTraceResource
     {
         if ($value instanceof Shipment) {
             $value = $value->id;
         }
 
+        $exectedDelivery = $deliveryMoment
+            ? '?extra_info=delivery_moment'
+            : '';
+
         $response = $this->performApiCall(
             'GET',
-            'tracktraces/'.$value
+            'tracktraces/'.$value.$exectedDelivery
         );
-
         return new TrackTraceResource(
             collect(
                 collect($response->data->tracktraces)->first()
