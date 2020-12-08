@@ -2,6 +2,7 @@
 
 namespace Mvdnbrk\MyParcel\Tests\Feature\Endpoints;
 
+use Mvdnbrk\MyParcel\Resources\Money;
 use Mvdnbrk\MyParcel\Resources\Parcel;
 use Mvdnbrk\MyParcel\Resources\ParcelCollection;
 use Mvdnbrk\MyParcel\Resources\ServicePoint;
@@ -262,12 +263,11 @@ class ShipmentsTest extends TestCase
         $concept = $this->client->shipments->concept($parcel);
 
         $shipment = $this->client->shipments->get($concept->id);
-
         $this->assertInstanceOf(Shipment::class, $shipment);
         $this->assertNotNull($shipment->id);
         $this->assertNotNull($shipment->created);
         $this->assertNotNull($shipment->status);
-
+        $this->assertInstanceOf(Money::class, $shipment->price);
         $this->assertTrue($this->cleanUp($shipment));
     }
 
