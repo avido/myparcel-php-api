@@ -32,7 +32,7 @@ class ServicePointTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('112233', $servicepoint->id);
+        $this->assertEquals('112233', $servicepoint->location_code);
         $this->assertEquals('Test Company B.V.', $servicepoint->name);
         $this->assertEquals('Poststraat', $servicepoint->street);
         $this->assertEquals('1', $servicepoint->number);
@@ -106,7 +106,7 @@ class ServicePointTest extends TestCase
             'location_code' => '112233',
         ]);
 
-        $this->assertEquals('112233', $servicepoint->id);
+        $this->assertEquals('112233', $servicepoint->location_code);
     }
 
     /** @test */
@@ -150,7 +150,7 @@ class ServicePointTest extends TestCase
         $array = $servicepoint->toArray();
 
         $this->assertIsArray($array);
-        $this->assertEquals('testcode1234', $array['id']);
+        $this->assertEquals('testcode1234', $array['location_code']);
         $this->assertEquals('Test name', $array['name']);
         $this->assertEquals('0101111111', $array['phone']);
         $this->assertEquals(['monday' => '9:00-17:00'], $array['opening_hours']);

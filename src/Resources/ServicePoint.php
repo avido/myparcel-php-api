@@ -5,7 +5,7 @@ namespace Mvdnbrk\MyParcel\Resources;
 class ServicePoint extends Address
 {
     /** @var string */
-    public $id;
+    public $location_code;
 
     /** @var string */
     public $name;
@@ -66,10 +66,10 @@ class ServicePoint extends Address
         $this->name = $value;
     }
 
-    public function setLocationCodeAttribute(string $value): void
-    {
-        $this->id = $value;
-    }
+//    public function setLocationCodeAttribute(string $value): void
+//    {
+//        $this->id = $value;
+//    }
 
     /**
      * @param  object|array
