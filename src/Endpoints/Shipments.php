@@ -27,7 +27,7 @@ class Shipments extends BaseEndpoint
             'POST',
             'shipments',
             $this->getHttpBody($parcel),
-            ['Content-Type' => 'application/vnd.shipment+json; charset=utf-8']
+            ['Content-Type' => 'application/vnd.shipment+json; charset=utf-8; version=1.1']
         );
 
         return new ShipmentResource(array_merge([

@@ -27,6 +27,9 @@ class Parcel extends BaseResource
     /** @var \Mvdnbrk\MyParcel\Resources\Recipient */
     public $recipient;
 
+    /** @var array Multi collo shipment */
+    public $secondary_shipments = [];
+
     public function __construct(array $attributes = [])
     {
         $this->carrier = self::CARRIER_POSTNL;
@@ -148,6 +151,11 @@ class Parcel extends BaseResource
         $this->reference_identifier = $value;
     }
 
+    public function setSecondaryShipmentsAttribute(array $shipments): void
+    {
+        $this->secondary_shipments = $shipments;
+    }
+
     public function toArray(): array
     {
         return collect(parent::toArray())
@@ -164,6 +172,9 @@ class Parcel extends BaseResource
                     ->forget('name');
 
                 return $collection->put('pickup', $pickup);
+            })
+            ->when(!count($this->secondary_shipments), function ($collection) {
+                return $collection->forget('secondary_shipments');
             })
             ->all();
     }
