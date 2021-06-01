@@ -113,6 +113,54 @@ class ShipmentsTest extends TestCase
     }
 
     /** @test */
+    public function create_a_new_multi_collo_shipment()
+    {
+        $array = [
+            'reference_identifier' => 'test-123',
+            'recipient' => [
+                'company' => 'Test Company B.V.',
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'email' => 'john@example.com',
+                'phone' => '0101111111',
+                'street' => 'Poststraat',
+                'number' => '1',
+                'number_suffix' => 'A',
+                'postal_code' => '1234AA',
+                'city' => 'Amsterdam',
+                'region' => 'Noord-Holland',
+                'cc' => 'NL',
+            ],
+            'options' => [
+                'label_description' => 'Test label description',
+                'large_format' => false,
+                'only_recipient' => false,
+                'package_type' => PackageType::PACKAGE,
+                'return' => false,
+                'signature' => true,
+            ],
+            'secondary_shipments' => [
+                new \stdClass(),
+                new \stdClass()
+            ]
+        ];
+
+        $parcel = new Parcel($array);
+
+        $shipment = $this->client->shipments->create($parcel);
+
+        $this->assertInstanceOf(Shipment::class, $shipment);
+        $this->assertInstanceOf(ShipmentOptions::class, $shipment->options);
+        $this->assertNotNull($shipment->id);
+        $this->assertEquals(ShipmentStatus::CONCEPT, $shipment->status);
+        $this->assertEquals('John', $shipment->recipient->first_name);
+        $this->assertEquals('Doe', $shipment->recipient->last_name);
+        $this->assertCount(2, $shipment->secondary_shipments);
+
+        $this->assertTrue($this->cleanUp($shipment));
+    }
+
+    /** @test */
     public function delete_a_shipment_by_id()
     {
         $parcel = new Parcel([
